@@ -3,14 +3,24 @@ pipeline {
     docker { image 'openjdk:11-jdk-slim' }
   }
   stages {
+    stage('Checkout') {
+      steps {
+        // Git checkout happens automatically since your Jenkinsfile is inside the repo
+        echo 'Code checked out'
+      }
+    }
     stage('Compile') {
       steps {
-        sh 'javac HelloWorld.java'
+        dir('my-first-pipeline') {
+          sh 'javac HelloWorld.java'
+        }
       }
     }
     stage('Run') {
       steps {
-        sh 'java HelloWorld'
+        dir('my-first-pipeline') {
+          sh 'java HelloWorld'
+        }
       }
     }
   }
